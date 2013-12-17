@@ -106,17 +106,18 @@ function createElementOutline(j, id) {
     elementOutline.css("top", j.rect.origin.y);
     elementOutline.css("width", j.rect.size.width);
     elementOutline.css("height", j.rect.size.height);
-//    elementOutline.css("background-color", "green");
-//    elementOutline.css("opacity", "0.4");
-//    elementOutline.mouseover(function(event) {
-//        event.stopPropagation();
-//        // Clear style
-//        $(".elements").css("background-color", "");
-//        // Apply style
-//        $("#outline" + id).css("background-color", "green");
-//        $("#outline" + id).css("opacity", "0.6");
-//        
-//    });
+    elementOutline.css("z-index", 9);
+    elementOutline.mouseover(function(event) {
+        event.stopPropagation();
+        // Clear style
+        $(".elements").css("background-color", "");
+        // Apply style
+        $("#outline" + id).css("background-color", "green");
+        $("#outline" + id).css("opacity", "0.6");
+        fillProperties(j, id);
+        $("#item" + id).attr("tabindex", -1).focus();
+        
+    });
     return elementOutline;
 }
 
@@ -157,22 +158,29 @@ function createElementItem(j, id, path, prefix) {
         // Apply style
         $("#outline" + id).css("background-color", "green");
         $("#outline" + id).css("opacity", "0.6");
-        $("#property_value_name").val(j.name);
-        $("#property_value_type").val(j.type);
-        $("#property_value_value").val(j.value);
-        $("#property_value_label").val(j.label);
-        $("#property_value_enabled").val(j.enabled);
-        $("#property_value_visible").val(j.visible);
-        $("#property_value_valid").val(j.valid);
-        $("#property_value_location").val("{" + j.rect.origin.x + ", " + j.rect.origin.y + "}");
-        $("#property_value_size").val("{" + Math.round(j.rect.size.width * 100) / 100 + ", " + Math.round(j.rect.size.height * 100) / 100 + "}");
-        $("#property_value_scale").val(null);
-        $("#property_value_rotation").val(null);
-        $("#property_value_skew").val(null);
-        $("#property_value_anchor").val(null);
-        $("#property_value_xpath").val(path.replace(/UIA/g, "").slice(0, -1).toLowerCase());
+        fillProperties(j, id);
     });
     return elementItem;
 }
 
+
+function fillProperties(j, id) {
+    $("#property_value_name").val(j.name);
+    $("#property_value_type").val(j.type);
+    $("#property_value_value").val(j.value);
+    $("#property_value_label").val(j.label);
+    $("#property_value_enabled").val(j.enabled);
+    $("#property_value_visible").val(j.visible);
+    $("#property_value_valid").val(j.valid);
+    $("#property_value_location").val("{" + j.rect.origin.x + ", " + j.rect.origin.y + "}");
+    $("#property_value_size").val("{" + Math.round(j.rect.size.width * 100) / 100 + ", " + Math.round(j.rect.size.height * 100) / 100 + "}");
+    $("#property_value_scale").val(null);
+    $("#property_value_rotation").val(null);
+    $("#property_value_skew").val(null);
+    $("#property_value_anchor").val(null);
+    $("#property_value_xpath").val($("#item" + id).data("xpath").replace(/UIA/g, "").
+                                        replace(/StaticText/g, "text").
+                                        slice(0, -1).
+                                        toLowerCase());
+}
 
