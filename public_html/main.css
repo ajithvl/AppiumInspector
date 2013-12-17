@@ -56,7 +56,11 @@
     width: 220px;
 }
 .propertyValueHalf {
-    width: 81px;
+    width: 75px;
+}
+.propertyValueText {
+    width: 220px;
+    height: 60px;
 }
 
 table {

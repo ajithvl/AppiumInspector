@@ -31,7 +31,7 @@
                                 Session:
                             </td>
                             <td>
-                                <input id="session" type="text" value="f7187d8c-2286-489e-9e0a-83d05e29d22f" size="40" />
+                                <input id="session" type="text" value="3ae345a7-4c6b-49bd-891b-9805e50e32c2" size="40" />
                             </td>
                             <td>
                                 <input id="fetchButton" value="Fetch" type="button"/>
@@ -48,6 +48,12 @@
                             </td>
                             <td>
                                 Y: <input id="mouseY" type="text" value="0" size="4" disabled/>
+                            </td>
+                            <td>
+                                <select id="orientation">
+                                    <option value="landscape">Landscape</option>
+                                    <option value="portrait">Portrait</option>
+                                </select>
                             </td>
                         </tr>
                     </table>
@@ -83,6 +89,10 @@
                                 <td><input id="property_value_label" type="text" class="propertyValueFull" disabled/></td>
                             </tr>
                             <tr>
+                                <td><div id="property_valid">valid</div></td>
+                                <td><input id="property_value_valid" type="text" class="propertyValueFull" disabled/></td>
+                            </tr>
+                            <tr>
                                 <td colspan="2">
                                     <table>
                                     <tr>
@@ -93,10 +103,6 @@
                                     </tr>
                                     </table>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td><div id="property_valid">valid</div></td>
-                                <td><input id="property_value_valid" type="text" class="propertyValueFull" disabled/></td>
                             </tr>
                             <tr>
                                 <td colspan="2">
@@ -110,7 +116,8 @@
                                     </table>
                                 </td>
                             </tr>
-                            <tr>
+                            
+<!--                            <tr>
                                 <td><div id="property_scale">scale</div></td>
                                 <td><input id="property_value_scale" type="text" class="propertyValueFull" disabled/></td>
                             </tr>
@@ -125,10 +132,10 @@
                             <tr>
                                 <td><div id="property_anchor">anchor</div></td>
                                 <td><input id="property_value_anchor" type="text" class="propertyValueFull" disabled/></td>
-                            </tr>
+                            </tr>-->
                             <tr>
                                 <td><div id="property_xpath">xpath</div></td>
-                                <td><input id="property_value_xpath" type="text" class="propertyValueFull" disabled/></td>
+                                <td><textarea id="property_value_xpath" class="propertyValueText" disabled></textarea></td>
                             </tr>
                         </table>
                     </div>

@@ -11,8 +11,26 @@ function updateCoordinates() {
 }
 
 function renderPage() {
-    getScreenshot();
     getPageSource();
+    getScreenshot();
+}
+
+function setDimentions(w, h) {
+//    $("#screenImage").css("width", w);
+//    $("#screenImage").css("height", h);
+    $("#screen").css("width", w);
+    $("#screen").css("height", h);
+    if($("#orientation").val() === "portrait") {
+        console.log("Setting orientation to portrait mode");
+        $("#screenImage").css("transform", "");
+        $("#screenImage").css("-ms-transform", "");
+        $("#screenImage").css("-webkit-transform", "");
+    } else {
+        console.log("Setting orientation to landscape mode");
+        $("#screenImage").css("transform", "rotate(-90deg)");
+        $("#screenImage").css("-ms-transform", "rotate(-90deg)");
+        $("#screenImage").css("-webkit-transform", "rotate(-90deg)");
+    }
 }
 
 function getPageSource() {
@@ -20,8 +38,9 @@ function getPageSource() {
     console.log("Fetching source from ", url);
     $.getJSON(url, function(data) {
         console.log("Get source request returned response: ", data.status);
-        if(data.status === 0) {
-            drawElements($.parseJSON(data.value), $("#elementsContainer"), 0, 0, "");
+        if (data.status === 0) {
+            drawElements($.parseJSON(data.value), $("#elementsContainer"), 0, 0, "//", 1, "");
+            setDimentions($.parseJSON(data.value).rect.size.width, $.parseJSON(data.value).rect.size.height);
         } else {
             alert("Failed to get source")
         }
@@ -33,7 +52,7 @@ function getScreenshot() {
     console.log("Fetching screenshot from ", url);
     $.getJSON(url, function(data) {
         console.log("Screenshot returned response: ", data.status);
-        if(data.status === 0) {
+        if (data.status === 0) {
             console.log("Setting new screen");
             $("#screenImage").attr("src", "data:image/png;base64, " + data.value);
         } else {
@@ -43,29 +62,36 @@ function getScreenshot() {
 }
 
 
-function drawElements(j, e, depth, index, prefix) {
+function drawElements(j, e, depth, index, path, elementCount, prefix) {
+    
 //    $("#screen").append('<div class="elements" style="position: absolute; left: 0px; top: 0px; width: 200px; height: 100px"></div>');
     var parentId = "";
-    if(e.attr("id") !== "elementsContainer") {
+    if (e.attr("id") !== "elementsContainer") {
         parentId = e.attr("id").replace("item", "").replace("", "");
     }
-    var id =  parentId + depth + "" + index;
+
+    if (j.type !== "UIAApplication") {
+        path = path + j.type + "[" + elementCount + "]/";
+    }
     
-//    var indend = depth;
-//    var prefix = "";
-//    while (indend > 0) {
-//        prefix += "---";
-//        indend--;
-//    }
+    var id = parentId + depth + "" + index;
     // Add div overlay on the image
     $("#screen").append(createElementOutline(j, id));
 
     // Add element to the element list
-    var elementItem = createElementItem(j, id, prefix);
+    var elementItem = createElementItem(j, id, path, prefix);
     e.append(elementItem);
 
+    var elementMap = {};
     for (var i = 0; i < j.children.length; i++) {
-        drawElements(j.children[i], elementItem, depth + 1, i, prefix + "---");
+        // Increment count in xpath based on element type
+        if(elementMap[j.children[i].type]) {
+            elementMap[j.children[i].type] ++;
+        } else {
+            elementMap[j.children[i].type] = 1;
+        }
+        console.log("Processed element [" + j.type + "], now looking for [" + j.children[i].type + "] = [" + elementMap[j.children[i].type] +  "]");
+        drawElements(j.children[i], elementItem, depth + 1, i, path, elementMap[j.children[i].type], prefix + "---");
     }
 
 }
@@ -83,7 +109,7 @@ function createElementOutline(j, id) {
     return elementOutline;
 }
 
-function createElementItem(j, id, prefix) {
+function createElementItem(j, id, path, prefix) {
     var elementOutline = $('<div id="outline' + id + '" class="elements"></div>');
     elementOutline.css("position", "absolute");
     elementOutline.css("left", j.rect.origin.x);
@@ -94,7 +120,7 @@ function createElementItem(j, id, prefix) {
 
     // Add element to the element list
     var elementItem = $('<div id="item' + id + '">' + prefix + '<a href="#">' + j.type + '(' + j.name + ')' + '</a></div>');
-    
+
     elementItem.data("name", j.name);
     elementItem.data("type", j.type);
     elementItem.data("value", j.value);
@@ -108,7 +134,7 @@ function createElementItem(j, id, prefix) {
     elementItem.data("rotation", null);
     elementItem.data("skew", null);
     elementItem.data("anchor", null);
-    elementItem.data("xpath", "have to calculate");
+    elementItem.data("xpath", path);
 
     elementItem.mouseover(function(event) {
         event.stopPropagation();
@@ -133,7 +159,7 @@ function createElementItem(j, id, prefix) {
         $("#property_value_rotation").val(null);
         $("#property_value_skew").val(null);
         $("#property_value_anchor").val(null);
-        $("#property_value_xpath").val(null);
+        $("#property_value_xpath").val(path.replace(/UIA/g, "").slice(0, -1).toLowerCase());
     });
     return elementItem;
 }
