@@ -16,17 +16,19 @@ function renderPage() {
 }
 
 function setDimentions(w, h) {
-//    $("#screenImage").css("width", w);
-//    $("#screenImage").css("height", h);
     $("#screen").css("width", w);
     $("#screen").css("height", h);
     if($("#orientation").val() === "portrait") {
         console.log("Setting orientation to portrait mode");
+        $("#screenImage").css("width", w);
+        $("#screenImage").css("height", h);
         $("#screenImage").css("transform", "");
         $("#screenImage").css("-ms-transform", "");
         $("#screenImage").css("-webkit-transform", "");
     } else {
         console.log("Setting orientation to landscape mode");
+        $("#screenImage").css("width", h);
+        $("#screenImage").css("height", w);
         $("#screenImage").css("transform", "rotate(-90deg)");
         $("#screenImage").css("-ms-transform", "rotate(-90deg)");
         $("#screenImage").css("-webkit-transform", "rotate(-90deg)");
@@ -90,7 +92,7 @@ function drawElements(j, e, depth, index, path, elementCount, prefix) {
         } else {
             elementMap[j.children[i].type] = 1;
         }
-        console.log("Processed element [" + j.type + "], now looking for [" + j.children[i].type + "] = [" + elementMap[j.children[i].type] +  "]");
+//        console.log("Processed element [" + j.type + "], now looking for [" + j.children[i].type + "] = [" + elementMap[j.children[i].type] +  "]");
         drawElements(j.children[i], elementItem, depth + 1, i, path, elementMap[j.children[i].type], prefix + "---");
     }
 
@@ -106,6 +108,15 @@ function createElementOutline(j, id) {
     elementOutline.css("height", j.rect.size.height);
 //    elementOutline.css("background-color", "green");
 //    elementOutline.css("opacity", "0.4");
+//    elementOutline.mouseover(function(event) {
+//        event.stopPropagation();
+//        // Clear style
+//        $(".elements").css("background-color", "");
+//        // Apply style
+//        $("#outline" + id).css("background-color", "green");
+//        $("#outline" + id).css("opacity", "0.6");
+//        
+//    });
     return elementOutline;
 }
 
