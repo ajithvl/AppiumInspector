@@ -184,3 +184,16 @@ function fillProperties(j, id) {
                                         toLowerCase());
 }
 
+//function post() {
+//    $.ajax({ 
+//        url:'execution/start',
+//        contentType: 'application/json',
+//        type: 'POST',
+//        data: $('#runForm').serialize(),
+//        success: function(d){
+//            alert(d);
+//        }
+//    }).done(function(d){
+//        alert(d);
+//    });
+//};
