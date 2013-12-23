@@ -1,8 +1,32 @@
 $(document).ready(function() {
 //    var screenJson = '{"name":"Avengers","type":"UIAApplication","label":"Avengers","value":null,"rect":{"origin":{"x":0,"y":0},"size":{"width":568,"height":320}},"dom":null,"enabled":true,"valid":true,"visible":true,"children":[{"name":null,"type":"UIAWindow","label":null,"value":null,"rect":{"origin":{"x":0,"y":0},"size":{"width":568,"height":320}},"dom":null,"enabled":true,"valid":true,"visible":true,"children":[{"name":"/Users/ajith/Library/Application Support/iPhone Simulator/7.0.3/Applications/8B0CA816-51CA-4ED7-837E-1E484F5C556B/MarvelAvengers.app/en.lproj/mainloadingscreen.jpg","type":"UIAImage","label":null,"value":null,"rect":{"origin":{"x":0,"y":0},"size":{"width":568,"height":320}},"dom":null,"enabled":true,"valid":true,"visible":false,"children":[]},{"name":"FETCHING META DATA","type":"UIAStaticText","label":"FETCHING META DATA","value":"FETCHING META DATA","rect":{"origin":{"x":146,"y":263},"size":{"width":280,"height":40}},"dom":null,"enabled":true,"valid":true,"visible":true,"children":[]},{"name":"img_loading_progressbar.png","type":"UIAImage","label":null,"value":null,"rect":{"origin":{"x":197,"y":290},"size":{"width":201,"height":10}},"dom":null,"enabled":true,"valid":true,"visible":false,"children":[]},{"name":"img_loading_progressbarFill.png","type":"UIAImage","label":null,"value":null,"rect":{"origin":{"x":197,"y":290},"size":{"width":11.705291748046875,"height":10}},"dom":null,"enabled":true,"valid":true,"visible":false,"children":[]},{"name":"Marvel: Avengers Alliance ? Marvel 2013","type":"UIAStaticText","label":"Marvel: Avengers Alliance ? Marvel 2013","value":"Marvel: Avengers Alliance ? Marvel 2013","rect":{"origin":{"x":179,"y":300},"size":{"width":210,"height":20}},"dom":null,"enabled":true,"valid":true,"visible":true,"children":[]},{"name":"M:48.75 FPS:0 ID:(null) (-1)","type":"UIAStaticText","label":"M:48.75 FPS:0 ID:(null) (-1)","value":"M:48.75 FPS:0 ID:(null) (-1)","rect":{"origin":{"x":0,"y":260},"size":{"width":140,"height":30}},"dom":null,"enabled":true,"valid":true,"visible":true,"children":[]}]},{"name":null,"type":"UIAWindow","label":null,"value":null,"rect":{"origin":{"x":0,"y":-248},"size":{"width":320,"height":568}},"dom":null,"enabled":true,"valid":true,"visible":false,"children":[{"name":null,"type":"UIAStatusBar","label":null,"value":null,"rect":{"origin":{"x":0,"y":0},"size":{"width":568,"height":0}},"dom":null,"enabled":true,"valid":true,"visible":false,"children":[]}]}]}';
 //    drawElements($.parseJSON(screenJson), $("#elementsContainer"), 0, 0, "");
+    hoverElement = null;
+    
     $("#fetchButton").click(renderPage);
     $("#screen").mousemove(updateCoordinates);
+    
+    $("#screen").mouseleave(function(){
+        hoverElement = null;
+    });
+    
+    $(window).keypress(function(event){
+        if(event.which == 12) {
+            alert("Locking screen");
+            $("#screenImage").css("z-index", 100);
+        }
+    });
+    $(window).keypress(function(event){
+        if(event.which == 21) {
+            alert("Unocking screen");
+            $("#screenImage").css("z-index", "");
+        } else if(event.which == 31) {
+            if(hoverElement) {
+                $(hoverElement).css("z-index", $(hoverElement).css("z-index") - 1);
+            }
+            alert("pushed back")
+        }
+    });
 });
 
 function updateCoordinates() {
@@ -93,7 +117,7 @@ function drawElements(j, e, depth, index, path, elementCount, prefix) {
             elementMap[j.children[i].type] = 1;
         }
 //        console.log("Processed element [" + j.type + "], now looking for [" + j.children[i].type + "] = [" + elementMap[j.children[i].type] +  "]");
-        drawElements(j.children[i], elementItem, depth + 1, i, path, elementMap[j.children[i].type], prefix + "---");
+        drawElements(j.children[i], elementItem, depth + 1, i, path, elementMap[j.children[i].type], prefix + "--+");
     }
 
 }
@@ -109,6 +133,7 @@ function createElementOutline(j, id) {
     elementOutline.css("z-index", 9);
     elementOutline.mouseover(function(event) {
         event.stopPropagation();
+        hoverElement = this; 
         // Clear style
         $(".elements").css("background-color", "");
         // Apply style
@@ -184,16 +209,3 @@ function fillProperties(j, id) {
                                         toLowerCase());
 }
 
-//function post() {
-//    $.ajax({ 
-//        url:'execution/start',
-//        contentType: 'application/json',
-//        type: 'POST',
-//        data: $('#runForm').serialize(),
-//        success: function(d){
-//            alert(d);
-//        }
-//    }).done(function(d){
-//        alert(d);
-//    });
-//};
