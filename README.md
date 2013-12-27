@@ -1,10 +1,10 @@
 AppiumInspector
 ===============
 
-A basic inspector for Appium. Its built using HTML and JS with jQuery library.
+A basic inspector for [Appium](http://appium.io/). Its built using HTML and JS with jQuery library.
 
 Reason to Build: The curent appium inspector does not map elements correctly if the App switches to landscape mode. So its 
-currently built to be used on top of Appium UI.
+currently built to be used on top of [Appium UI](https://bitbucket.org/appium/appium.app/downloads).
 
 NOTE: I havn't tested it on apps which use portrait orientation. 
 
