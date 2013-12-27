@@ -27,4 +27,4 @@ Features:
 
 Screenshot:
 -----------
-![Screenshot](https://github.com/ajithvl/AppiumInspector/blob/master/screenshot/screenshot.png "Screenshot")
+![Screenshot](https://raw.github.com/ajithvl/AppiumInspector/master/screenshot/screenshot.png "Screenshot")
