@@ -24,3 +24,7 @@ Features:
 * Ctrl + -   => Use this hotkey to push an element back in case its overlapping other elements
 * Ctrl + l   => Lock the inspector
 * Ctrl + u   => Unlock the inspector
+
+Screenshot:
+-----------
+![Screenshot](https://github.com/ajithvl/AppiumInspector/blob/master/screenshot/screenshot.png "Screenshot")
