@@ -3,10 +3,10 @@ AppiumInspector
 
 A basic inspector for [Appium](http://appium.io/). Its built using HTML and JS with jQuery library.
 
-Reason to Build: The curent appium inspector does not map elements correctly if the App switches to landscape mode. So its 
+Reason to Build: The current Appium Inspector does not map elements correctly if the App switches to landscape mode. So its 
 currently built to be used on top of [Appium UI](https://bitbucket.org/appium/appium.app/downloads).
 
-NOTE: I havn't tested it on apps which use portrait orientation. 
+NOTE: I havn't tested it on apps which use portrait orientation. Feel free to fix any issues:)
 
 How To Use:
 -----------
@@ -19,7 +19,7 @@ How To Use:
 
 Features:
 ---------
-* Displays component view on the right and screen view on the left bot of which are interconnected 
+* Displays component view on the right and screen view on the left. Both are interconnected 
 * Mouseover the element displays all the element properties
 * Ctrl + -   => Use this hotkey to push an element back in case its overlapping other elements
 * Ctrl + l   => Lock the inspector
